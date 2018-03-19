@@ -5,12 +5,12 @@ import (
     "fmt"
 )
 
-var intChan = make(chan int, 2)
-
 /**
 通道关闭后，依然可以读取通道缓冲区中的数据
  */
 func ExecFor()  {
+    var intChan = make(chan int, 2)
+
     syncChan := make(chan struct{})
 
     // 接收方
@@ -39,4 +39,37 @@ func ExecFor()  {
 
     <-syncChan
     <-syncChan
+}
+
+
+/**
+实际应用中select语句通常结合for一起使用。并且放到goroutine中运行，这样及时select语句阻塞了也不会造成死锁
+ */
+func ExecSelectFor()  {
+    intChan := make(chan int, 10)
+    for i := 0; i< 10; i++ {
+        intChan <- i
+    }
+
+    close(intChan)
+
+    syncChan := make(chan struct{}, 1)
+    go func() {
+        Loop:
+            for {
+                select {
+                case e, ok := <- intChan:
+                    if !ok {
+                        fmt.Println("End.")
+                        break Loop
+                    } else {
+                        fmt.Printf("Received:%v\n", e)
+                    }
+                }
+            }
+
+        syncChan <- struct{}{}
+    }()
+
+    <- syncChan
 }
