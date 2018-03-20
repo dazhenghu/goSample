@@ -61,6 +61,7 @@ func ExecSelectFor()  {
                 case e, ok := <- intChan:
                     if !ok {
                         fmt.Println("End.")
+                        // 此处跳出Loop标签，即中断紧贴于Loop标签之下的那条语句执行，如果不带该标签，则只能中断当前select语句
                         break Loop
                     } else {
                         fmt.Printf("Received:%v\n", e)
