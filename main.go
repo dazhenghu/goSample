@@ -1,7 +1,10 @@
 package main
 
-import "github.com/dazhenghu/goSample/app/channel"
+import (
+    "github.com/dazhenghu/goSample/app/sync"
+)
 
 func main()  {
-    channel.ExecTicker()
+    //channel.ExecTicker()
+    sync.ExecAtomicVal()
 }
