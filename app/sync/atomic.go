@@ -25,3 +25,5 @@ func ExecAtomicVal()  {
 func anotherStore(countVal atomic.Value)  {
     countVal.Store([]int {2, 4, 6, 8})
 }
+
+
