@@ -16,6 +16,9 @@ func TestErrorA(t *testing.T) {
     errInter = err
     errBase = err
 
+    /**
+    可以根据断言来区分类型，即使实现了同一个接口，但是struct不一样也是可以区分开来的
+     */
     _, ok :=  errInter.(*errorA)
 
     _, baseOK := errBase.(*errorB)
